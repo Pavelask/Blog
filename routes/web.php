@@ -19,8 +19,17 @@ Route::get('/', function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/news', \App\Livewire\CreateNews::class);
+    Route::get('/news/add', \App\Livewire\CreateNews::class)->name('news_add');
 });
+
+Route::middleware('guest')->group(function () {
+    Route::get('/news', \App\Livewire\AllNews::class)->name('list_news');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('/news/{record}/edit', \App\Livewire\EditNews::class)->name('edit_news');
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

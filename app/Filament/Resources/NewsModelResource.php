@@ -51,8 +51,8 @@ class NewsModelResource extends Resource
                     ->default(500),
                 Toggle::make('is_visible')
                     ->label('OFF|ON')
-                    ->onColor('red')
-                    ->offColor('danger')
+                    ->onColor('danger')
+                    ->offColor('success')
                     ->inline(false)
                     ->onIcon('heroicon-m-bolt')
                     ->offIcon('heroicon-m-user'),

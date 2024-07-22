@@ -3,30 +3,28 @@
 namespace App\Livewire;
 
 use App\Models\NewsModel;
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-class CreateNews extends Component implements HasForms
+class EditNews extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public ?array $data = [];
+    public NewsModel $record;
 
-    public function mount(): void
+    public function mount(NewsModel $record)
     {
-        $this->form->fill();
+        $this->record = $record;
     }
 
-    public function form(Form $form): Form
+    public function editNewsForm(Form $form): Form
     {
         return $form
             ->schema([
@@ -51,13 +49,14 @@ class CreateNews extends Component implements HasForms
                     ->onIcon('heroicon-m-bolt')
                     ->offIcon('heroicon-m-user'),
             ])->columns(3)
-            ->statePath('data');
+            ->statePath('postData')
+            ->model($this->record);
     }
 
-    public function create(): void
+
+    public function update(): void
     {
-//        dd($this->form->getState());
-        NewsModel::create($this->form->getState());
+        dd($this->form->getState());
 
         Notification::make()
             ->title('Анкета участника успешно добавлена')
@@ -71,9 +70,9 @@ class CreateNews extends Component implements HasForms
         $this->redirectRoute('list_news');
     }
 
-    public function render(): View
 
+    public function render()
     {
-        return view('livewire.create-news')->layout('layouts.news');
+        return view('livewire.edit-news', )->layout('layouts.news');
     }
 }
